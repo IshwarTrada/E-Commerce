@@ -1,0 +1,133 @@
+#section1 {
+    height: 625px;
+    background-image: url('img/Men_Ankle.webp');
+    background-position: 100% 50%;
+    background-size: cover;
+}
+
+.overlay {
+    height: 83%;
+}
+
+.s1-content-main {
+    padding-left: 50px;
+    width: 610px;
+}
+
+.category {
+    flex-wrap: wrap;
+}
+
+
+#section2 {
+    height: inherit;
+}
+
+/* Product Listing */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+.s1-content-main {
+    text-align: left;
+}
+
+.product-box {
+    font: 13px/23px "Raleway", Arial, sans-serif;
+    color: #303336;
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 10px;
+}
+
+
+
+.container {
+    margin: 30px auto;
+    max-width: 300px;
+    height: 465px;
+    background: white;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 5px 5px 15px 0px #bababa;
+
+}
+
+.price {
+    position: absolute;
+    top: 180px;
+    left: 35%;
+    color: white;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 50%;
+    padding: 19px 33px;
+    font-size: 22px;
+    font-family: 'Manrope';
+
+    div {
+        margin-top: 5px;
+        font-weight: bold;
+    }
+}
+
+.information {
+    text-align: center;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    width: inherit;
+}
+
+.name {
+    font-size: 22px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Show 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 0 15px;
+    font-family: Garamond;
+
+}
+
+.store {
+    font-size: 16px;
+    color: #8c98a8;
+    margin-bottom: 28px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Show 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: 'Manrope';
+
+}
+
+.button {
+    text-decoration: none;
+    background: rgb(0, 82, 205);
+    background-color: #49B956;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 54px;
+    border-radius: 5px;
+    margin: 5px;
+    font-family: 'Manrope';
+
+}
+
+.button:hover {
+    background-color: #60CF6F;
+    color: white;
+    font-size: 15px;
+    transition: 0.1s;
+}
