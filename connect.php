@@ -11,7 +11,8 @@ $dbname = "vedam_user";
 $con = new mysqli($server, $username, $password, $dbname);
 
 if (!$con) {
-echo "Fail to connecting to the db";
+    echo "Fail to connecting to the db";
+    // die("Connection failed: " . $con->connect_error);
 } else {
-// echo "Success";
+    // echo "Success";
 }

@@ -1,3 +1,14 @@
+<?php
+include 'connect.php';
+
+$sql = "SELECT * FROM product";
+// $result = $con->query($sql);
+$result = mysqli_query($con, $sql);
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,100 +83,34 @@
     <!-- Listing -->
     <section id="section2">
         <div class="product-box">
-            <div class="container">
-                <div style="overflow: hidden; width: 100%;">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/furniture.jpg" alt="cookies"
-                        class="hero-image" />
-                </div>
-                <div class="price">₹<div>95</div>
-                </div>
 
-                <div class="information">
+            <?php 
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
 
-                    <div class="name">Designer Collection, 15-Pair Box</div>
+            echo '<div class="container">';
+            echo '    <div class="div_product_image">';
+            echo '        <img src="img/product/'.$row['product_photo'].'" alt="Photo Missing of Producrt id'.$row['product_id'].'" class="hero-image" />';
+            echo '    </div>';
+            echo '    <div class="price">₹<div>'.$row['product_price'].'</div>';
+            echo '    </div>';
 
-                    <div class="store">ikea.com</div>
+            echo '    <div class="information">';
 
-                    <a href="pro_details.html" class="button">Purchase Product</a>
+            echo '        <div class="name">'.$row['product_name'].'</div>';
 
-                </div> <!-- end information -->
-            </div> <!-- end container -->
+            echo '        <div class="store">Verified&nbsp; Reatailer&nbsp;<img width="20" height="20" src="https://img.icons8.com/dotty/80/49b956/checked.png" alt="checked"/></div>';
 
-            <div class="container">
-                <div style="overflow: hidden; width: 100%;">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/furniture.jpg" alt="cookies"
-                        class="hero-image" />
-                </div>
-                <div class="price">₹<div>95</div>
-                </div>
+            echo '        <a href="pro_details.html" class="button">Purchase Product</a>';
 
-                <div class="information">
+            echo '    </div> <!-- end information -->';
+            echo '</div> <!-- end container -->';
+                }
+            }
+            $con->close();
+            ?>
 
-                    <div class="name">Designer Collection, 15-Pair Box</div>
 
-                    <div class="store">ikea.com</div>
-
-                    <a href="pro_details.html" class="button">Purchase Product</a>
-
-                </div> <!-- end information -->
-            </div> <!-- end container -->
-
-            <div class="container">
-                <div style="overflow: hidden; width: 100%;">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/furniture.jpg" alt="cookies"
-                        class="hero-image" />
-                </div>
-                <div class="price">₹<div>95</div>
-                </div>
-
-                <div class="information">
-
-                    <div class="name">Designer Collection, 15-Pair Box</div>
-
-                    <div class="store">ikea.com</div>
-
-                    <a href="pro_details.html" class="button">Purchase Product</a>
-
-                </div> <!-- end information -->
-            </div><!-- end container -->
-
-            <div class="container">
-                <div style="overflow: hidden; width: 100%;">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/furniture.jpg" alt="cookies"
-                        class="hero-image" />
-                </div>
-                <div class="price">₹<div>95</div>
-                </div>
-
-                <div class="information">
-
-                    <div class="name">Designer Collection, 15-Pair Box</div>
-
-                    <div class="store">ikea.com</div>
-
-                    <a href="pro_details.html" class="button">Purchase Product</a>
-
-                </div> <!-- end information -->
-            </div><!-- end container -->
-
-            <div class="container">
-                <div style="overflow: hidden; width: 100%;">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/furniture.jpg" alt="cookies"
-                        class="hero-image" />
-                </div>
-                <div class="price">₹<div>95</div>
-                </div>
-
-                <div class="information">
-
-                    <div class="name">Designer Collection, 15-Pair Box</div>
-
-                    <div class="store">ikea.com</div>
-
-                    <a href="pro_details.html" class="button">Purchase Product</a>
-
-                </div> <!-- end information -->
-            </div><!-- end container -->
         </div>
     </section>
 
