@@ -11,11 +11,6 @@ if (isset($_COOKIE['remember_user'])) {
     // header("location:login.php");
     // exit();
 }
-
-$sql = "SELECT * FROM product";
-// $result = $con->query($sql);
-$result = mysqli_query($con, $sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +19,7 @@ $result = mysqli_query($con, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Socks Listing</title>
+    <title>Product Detail</title>
     <!-- Bootstrap Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -33,11 +28,12 @@ $result = mysqli_query($con, $sql);
         crossorigin="anonymous"></script>
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="listing.css">
+    <link rel="stylesheet" href="pro_details.css">
 </head>
 
 <body>
-<header id="header_offer" style="position: fixed;">
+    <!-- Navbar and header-->
+    <header id="header_offer" style="position: fixed;">
         <div class="offer">
             <p><strong>Free Delivery</strong> When you spend ₹3999.</p>
             <p>12-Month Sock <strong>Sock Sure</strong> Guarantee</p>
@@ -78,61 +74,56 @@ $result = mysqli_query($con, $sql);
             </div>
         </nav>
     </header>
-    <!-- Intro About Section -->
-    <section id="section1">
-        <div class="overlay">
-            <div class="s1-content-main">
-                <!-- <p class="s1-p">Walk Brighter in London's finest socks</p> -->
-                <div>
-                    <h1 class="s1-h1">Our Shop</h1>
-                </div>
-                <div>
-                    <p>Welcome to London Sock Company, where you can shop a range of luxury socks, all crafted using the
-                        finest materials for absolute quality. Our company was built on a belief that the little things
-                        –
-                        like socks – make a big difference. We don’t just see socks as a wardrobe essential, but a
-                        lifestyle
-                        choice. Since 2013, we have encouraged our customers to add a dash of colour in their sock
-                        drawers,
-                        embrace their personality, and be inspired to be the best version of themselves.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Listing -->
-    <section id="section2">
-        <div class="product-box">
+    <!-- Product Details -->
+    <section>
+        <?php
+        // Check if a valid product ID or slug is provided in the URL
+        if (isset($_GET['id'])) {
 
-            <?php 
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
+            $product_id = $_GET['id'];
 
-            echo '<div class="container">';
-            echo '    <div class="div_product_image">';
-            echo '        <img src="img/product/'.$row['product_photo'].'" alt="Photo Missing of Producrt id'.$row['product_id'].'" class="hero-image" />';
-            echo '    </div>';
-            echo '    <div class="price">₹<div>'.$row['product_price'].'</div>';
-            echo '    </div>';
 
-            echo '    <div class="information">';
+            // Fetch product details from the database
+            $sql = "SELECT * FROM product WHERE product_id = $product_id";
+            $result = $con->query($sql);
 
-            echo '        <div class="name">'.$row['product_name'].'</div>';
+            if ($row = $result->fetch_assoc()) {
+                $product_name = $row['product_name'];
+                $product_price = $row['product_price'];
+                $product_description = $row['product_desc'];
+                $product_photo = $row['product_photo'];
 
-            echo '        <div class="store">Verified&nbsp; Reatailer&nbsp;<img width="20" height="20" src="https://img.icons8.com/dotty/80/49b956/checked.png" alt="checked"/></div>';
-
-            echo '        <a href="pro_details.php?id='.$row['product_id'].'" class="button">Purchase Product</a>';
-
-            echo '    </div> <!-- end information -->';
-            echo '</div> <!-- end container -->';
-                }
+                echo '<div class="product_page">';
+                echo '    <div class="product_image">';
+                echo '        <img src="img/product/' . $product_photo . '" alt="">';
+                echo '    </div>';
+                echo '    <div class="product_detail">';
+                echo '        <div class="product_description">';
+                echo '            <h2>' . $product_name . '</h2>';
+                echo '            <h1><span style="font-size: 18px;letter-spacing: 8px;">₹</span>' . $product_price . '</h1>';
+                echo '            <div class="description">';
+                echo                $product_description;
+                echo '            </div>';
+                echo '          <div class="quantity">';
+                echo '              <button class="quantity-btn" id="decrement">-</button>';
+                echo '              <input type="number" id="quantity" value="1" min="1" max="10">';
+                echo '              <button class="quantity-btn" id="increment">+</button>';
+                echo '          </div>';
+                echo '          <div id="quantity-message" class="error-message"></div>';
+                echo '            <a href="#" class="add_cart">ADD TO CART </a>';
+                echo '        </div>';
+                echo '    </div>';
+                echo '</div>';
+            } else {
+                echo '<p>Error: Product not found.</p>';
             }
+            // Close the database connection
             $con->close();
-            ?>
-
-
-        </div>
+        } else {
+            echo '<p>Error: Invalid product ID.</p>';
+        }
+        ?>
     </section>
-
     <!-- Footer -->
     <footer>
         Copyright &copy; by Ishwar Trada. All rights reserved.

@@ -48,11 +48,38 @@
     margin: 30px;
 }
 
-.product_detail div p {
+.product_detail div .description {
     color: #7e7e7e;
     margin: 0 25px 50px 25px;
     font-family: 'Manrope';    
 }
+
+/* Quantity Button */
+input[type=number]{
+    text-align: center;
+}
+.quantity-btn {
+    background-color: #f8f9fa;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.quantity-btn:disabled {
+    color: #ccc;
+}
+
+.error-message {
+    margin-top: 0.5rem;
+}
+/* Disable default incrementer/decrementer */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+
 
 .add_cart {
     display: block;

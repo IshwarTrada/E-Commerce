@@ -1,5 +1,16 @@
 <?php
 include 'connect.php';
+
+session_start(); // Start the session
+
+// Check if user is already logged in
+if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    $username = $_COOKIE['remember_user']; // Assuming you're storing the username in the cookie
+    header("location:profile.php");
+    exit();
+}
+
+// Send Sign Up page data to the database
 if (isset($_POST['u_name']) && isset($_POST['u_email']) && isset($_POST['u_pwd'])) {
     // Get details from form field
     $u_name = $_POST['u_name'];
@@ -15,12 +26,15 @@ if (isset($_POST['u_name']) && isset($_POST['u_email']) && isset($_POST['u_pwd']
     if ($result) {
         // echo "Successfully Inserted";
         // echo "Successfully Sign Up...";
+        
     } else {
         die(mysqli_error($con));
     }
     // close the connection
     $con->close();
 }
+
+// Login Page Authentication
 if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
 
     $u_email = $con->real_escape_string($_POST['log_u_email']);
@@ -38,18 +52,22 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
         $row = $result->fetch_assoc(); // Assuming you want to get the username from the result
         $username = $row['u_name'];
 
+        // Set session variable indicating the user is logged in
+        $_SESSION['logged_in'] = true;
+
         // Set cookie to expire in 5 seconds
         setcookie('just_logged_in', true, time() + 5, '/'); 
+        setcookie('remember_user', $username, time() + (30 * 24 * 60 * 60), '/');
 
         // redirect the page
         header("location:index.php?username=$username");
         exit();
     } else {
         // echo "You aren't Signed up yet";
-    }
-
-    // close the connection
-    $con->close();
+        // Redirect back to login page with an error message
+        header("location:login.php?error=1");
+        exit();
+    }  
 }
 ?>
 <!DOCTYPE html>
@@ -87,28 +105,37 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
             <div>
                 <ul class="nav_ul">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="listing.html">Socks</a></li>
-                    <li><a href="contact_us.html">Contact Us</a></li>
+                    <li><a href="listing.php">Socks</a></li>
+                    <li><a href="contact_us.php">Contact Us</a></li>
                 </ul>
             </div>
             <div>
-                <a href="index.html"><img src="img\logo.png" alt="Logo" class="nav_logo"></a>
+                <a href="index.php"><img src="img/logo.png" alt="Logo" class="nav_logo"></a>
             </div>
             <div class="nav_right">
                 <div class="search-bar">
                     <input id="" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
-                    <button class="search_btn"><img class="search-icon" src="icons\search.svg" alt="search"></button>
+                    <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
                 <div class="country">
                     <img class="country_flag" src="icons/india-flag.png" alt="India Flag">
                     India
                 </div>
-                <a href="login.html"><img class="nav_right_logo" src="icons\user.png" alt="user"></a>
-                <a href="#"><img class="nav_right_logo" src="icons\cart.png" alt="Cart"></a>
+                <div class="profile-dropdown">
+                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
+                    <?php
+                    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<div class="dropdown-content">';
+                        echo '    <a href="logout.php">Logout</a>';
+                        echo '</div>';
+                    }
+                    ?>
+                </div>
+                <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
+                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
-
     <!-- container div -->
     <section class="login_class">
         <div class="container">

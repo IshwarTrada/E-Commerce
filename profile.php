@@ -1,10 +1,24 @@
+<?php
+include 'connect.php';
+
+session_start(); // Start the session
+
+if (isset($_COOKIE['remember_user'])) {
+    $_SESSION['logged_in'] = true;
+    $username = $_COOKIE['remember_user'];
+} else {
+    // User is not logged in, redirect to login page
+    // header("location:login.php");
+    // exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail</title>
+    <title>Vedam Socks</title>
     <!-- Bootstrap Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -13,11 +27,9 @@
         crossorigin="anonymous"></script>
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pro_details.css">
 </head>
 
 <body>
-    <!-- Navbar and header-->
     <header id="header_offer" style="position: fixed;">
         <div class="offer">
             <p><strong>Free Delivery</strong> When you spend ₹3999.</p>
@@ -29,50 +41,45 @@
                 <ul class="nav_ul">
                     <li><a href="index.php">Home</a></li>
                     <li><a href="listing.php">Socks</a></li>
-                    <li><a href="contact_us.html">Contact Us</a></li>
+                    <li><a href="contact_us.php">Contact Us</a></li>
                 </ul>
             </div>
             <div>
-                <a href="index.html"><img src="img\logo.png" alt="Logo" class="nav_logo"></a>
+                <a href="index.php"><img src="img/logo.png" alt="Logo" class="nav_logo"></a>
             </div>
             <div class="nav_right">
                 <div class="search-bar">
                     <input id="" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
-                    <button class="search_btn"><img class="search-icon" src="icons\search.svg" alt="search"></button>
+                    <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
                 <div class="country">
                     <img class="country_flag" src="icons/india-flag.png" alt="India Flag">
                     India
                 </div>
-                <a href="login.php"><img class="nav_right_logo" src="icons\user.png" alt="user"></a>
-                <a href="#"><img class="nav_right_logo" src="icons\cart.png" alt="Cart"></a>
+                <div class="profile-dropdown">
+                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
+                    <?php
+                    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<div class="dropdown-content">';
+                        echo '    <a href="logout.php">Logout</a>';
+                        echo '</div>';
+                    }
+                    ?>
+                </div>
+                <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
+                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
-    <!-- Product Details -->
-    <section>
-        <div class="product_page">
-            <div class="product_image">
-                <img src="img/1.webp" alt="">
-            </div>
-            <div class="product_detail">
-                <div class="product_description">
-                    <h2>Sample Product</h2>
-                    <h1><span style="font-size: 18px;letter-spacing: 8px;">₹</span>95</h1>
-                    <p>Sample text. Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis
-                        suscipit ultrices.e text.</p>
-                    <a href="#" class="add_cart">ADD TO CART </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Footer -->
+
+
+
     <footer>
         Copyright &copy; by Ishwar Trada. All rights reserved.
     </footer>
 
-<!-- Javascript -->
-<script src="script.js"></script>
+    <!-- Javascript -->
+    <script src="script.js"></script>
 </body>
 
 </html>

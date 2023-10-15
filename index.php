@@ -1,3 +1,19 @@
+<?php
+include 'connect.php';
+
+session_start(); // Start the session
+
+if (isset($_COOKIE['remember_user'])) {
+    $_SESSION['logged_in'] = true;
+    $username = $_COOKIE['remember_user'];
+} else {
+    // User is not logged in, redirect to login page
+    // header("location:login.php");
+    // exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,25 +41,38 @@
         <nav class="navbar">
             <div>
                 <ul class="nav_ul">
-                    <li><a href="">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li><a href="listing.php">Socks</a></li>
-                    <li><a href="contact_us.html">Contact Us</a></li>
+                    <li><a href="contact_us.php">Contact Us</a></li>
                 </ul>
             </div>
             <div>
-                <a href="index.html"><img src="img\logo.png" alt="Logo" class="nav_logo"></a>
+                <a href="index.php"><img src="img/logo.png" alt="Logo" class="nav_logo"></a>
             </div>
             <div class="nav_right">
                 <div class="search-bar">
-                    <input id="" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
-                    <button class="search_btn"><img class="search-icon" src="icons\search.svg" alt="search"></button>
+                    <input id="searchInput" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
+                    <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
+                <!-- <div id="suggestionContainer"></div> -->
+
+
                 <div class="country">
                     <img class="country_flag" src="icons/india-flag.png" alt="India Flag">
                     India
                 </div>
-                <a href="login.php"><img class="nav_right_logo" src="icons\user.png" alt="user"></a>
-                <a href="#"><img class="nav_right_logo" src="icons\cart.png" alt="Cart"></a>
+                <div class="profile-dropdown">
+                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
+                    <?php
+                    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<div class="dropdown-content">';
+                        echo '    <a href="logout.php">Logout</a>';
+                        echo '</div>';
+                    } ?>
+
+                </div>
+                <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
+                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
@@ -69,7 +98,7 @@
                 <p class="s1-p">Walk Brighter in London's finest socks</p>
                 <h1 class="s1-h1">Step into <em>Summer</em></h1>
                 <div class="s1-content">
-                    <a class="s1-link-btn" href="listing.html">Shop Sale</a>
+                    <a class="s1-link-btn" href="listing.php">Shop Sale</a>
                     <!-- <a class="s1-link-btn" href="#">Colour of the Season</a> -->
                 </div>
             </div>
@@ -82,7 +111,7 @@
     <!-- Section 2 -->
     <section id="section2" class="category">
         <div class="category_box">
-            <a href="listing.html">
+            <a href="listing.php">
                 <img src="img/Summer_socks.avif" alt="Summer Socks">
                 <div class="category_description">
                     <h2 class="category_title">Summer <em>Socks</em></h2>
@@ -91,7 +120,7 @@
             </a>
         </div>
         <div class="category_box">
-            <a href="listing.html">
+            <a href="listing.php">
                 <img src="img/Best_Seller.avif" alt="Best Seller">
                 <div class="category_description">
                     <h2 class="category_title">Best <em>Sellers</em></h2>
@@ -100,7 +129,7 @@
             </a>
         </div>
         <div class="category_box">
-            <a href="listing.html">
+            <a href="listing.php">
                 <img src="img/Dress_socks.avif" alt="Dress Books">
                 <div class="category_description">
                     <h2 class="category_title">Dress <em>Socks</em></h2>
@@ -109,7 +138,7 @@
             </a>
         </div>
         <div class="category_box">
-            <a href="listing.html">
+            <a href="listing.php">
                 <img src="img/Gift_Boxes.avif" alt="Gift Boxes">
                 <div class="category_description">
                     <h2 class="category_title">Gift <em>Boxes</em></h2>
@@ -130,7 +159,7 @@
                 <br>Up to 50% off select summertime styles for a limited time.
                 <br>Be quick.
             </p>
-            <a href="listing.html" class="s3_c s1-link-btn">Shop Sale</a>
+            <a href="listing.php" class="s3_c s1-link-btn">Shop Sale</a>
         </div>
     </section>
     <!-- Section 4 -->
@@ -161,39 +190,7 @@
     <footer>
         Copyright &copy; by Ishwar Trada. All rights reserved.
     </footer>
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var welcomeMsg = document.getElementById('welcome');
 
-            if (welcomeMsg) {
-                setTimeout(function () {
-                    welcomeMsg.style.display = 'none';
-                }, 5000);
-            }
-        });
-    </script> -->
-    <!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var welcomeMsg = document.querySelector('.welcome_msg');
-    if (welcomeMsg) {
-        welcomeMsg.style.cssText = `
-            position: absolute;
-            z-index: 100;
-            left: 50%;
-            top: 25%;
-            transform: translateX(-50%);
-            padding: 10px 50px;
-            background-color: #47ec7083;
-            border: 3px solid #00c531;
-            color: #036017;
-        `;
-        welcomeMsg.style.display = 'block';
-        setTimeout(function() {
-            welcomeMsg.style.display = 'none';
-        }, 5000);
-    }
-});
-</script> -->
     <script src="script.js"></script>
 </body>
 

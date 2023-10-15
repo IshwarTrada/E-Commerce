@@ -3,6 +3,7 @@ include 'connect.php';
 
 session_start(); // Start the session
 
+// Kepp Login on all pages
 if (isset($_COOKIE['remember_user'])) {
     $_SESSION['logged_in'] = true;
     $username = $_COOKIE['remember_user'];
@@ -12,11 +13,31 @@ if (isset($_COOKIE['remember_user'])) {
     // exit();
 }
 
-$sql = "SELECT * FROM product";
-// $result = $con->query($sql);
-$result = mysqli_query($con, $sql);
+// Send feedback to the database
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_msg'])) {
+    // Get details from form field
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $feedback_msg = $_POST['feedback_msg'];
 
+    // Query for insert data into database
+    $sql = "INSERT INTO `feedback` (`name`, `email`, `feedback_msg`, `dt`) VALUES ('$name', '$email', '$feedback_msg', current_timestamp());";
+
+    // check connection and sql query(right/wrong)
+    $result = mysqli_query($con, $sql);
+
+    if ($result) {
+        // echo "Successfully Inserted";
+        // echo "Successfully Sign Up...";
+        
+    } else {
+        die(mysqli_error($con));
+    }
+    // close the connection
+    $con->close();
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,19 +45,19 @@ $result = mysqli_query($con, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Socks Listing</title>
-    <!-- Bootstrap Link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <title>Contact Us</title>
+        <!-- Bootstrap Link -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <!-- CSS File -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="listing.css">
+    <link rel="stylesheet" href="contact_us_style.css">
 </head>
 
-<body>
+<body class="">
 <header id="header_offer" style="position: fixed;">
         <div class="offer">
             <p><strong>Free Delivery</strong> When you spend ₹3999.</p>
@@ -78,61 +99,29 @@ $result = mysqli_query($con, $sql);
             </div>
         </nav>
     </header>
-    <!-- Intro About Section -->
-    <section id="section1">
-        <div class="overlay">
-            <div class="s1-content-main">
-                <!-- <p class="s1-p">Walk Brighter in London's finest socks</p> -->
-                <div>
-                    <h1 class="s1-h1">Our Shop</h1>
-                </div>
-                <div>
-                    <p>Welcome to London Sock Company, where you can shop a range of luxury socks, all crafted using the
-                        finest materials for absolute quality. Our company was built on a belief that the little things
-                        –
-                        like socks – make a big difference. We don’t just see socks as a wardrobe essential, but a
-                        lifestyle
-                        choice. Since 2013, we have encouraged our customers to add a dash of colour in their sock
-                        drawers,
-                        embrace their personality, and be inspired to be the best version of themselves.</p>
-                </div>
-            </div>
+
+
+    <!-- Form -->
+    <section id="form_section">
+        <div class="container">
+            <form id="contact" action="contact_us.php" method="post">
+                <h3>Give Feedback</h3>
+                <h4>Contact Us for any Query</h4>
+                <fieldset>
+                    <input placeholder="Your Name" type="text" name="name" tabindex="1" required autofocus>
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Email Address" type="email" name="email" tabindex="2" required>
+                </fieldset>
+                <fieldset>
+                    <textarea placeholder="Type your message here...." name="feedback_msg" tabindex="5" required></textarea>
+                </fieldset>
+                <fieldset>
+                    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+                </fieldset>
+            </form>
         </div>
     </section>
-    <!-- Listing -->
-    <section id="section2">
-        <div class="product-box">
-
-            <?php 
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-
-            echo '<div class="container">';
-            echo '    <div class="div_product_image">';
-            echo '        <img src="img/product/'.$row['product_photo'].'" alt="Photo Missing of Producrt id'.$row['product_id'].'" class="hero-image" />';
-            echo '    </div>';
-            echo '    <div class="price">₹<div>'.$row['product_price'].'</div>';
-            echo '    </div>';
-
-            echo '    <div class="information">';
-
-            echo '        <div class="name">'.$row['product_name'].'</div>';
-
-            echo '        <div class="store">Verified&nbsp; Reatailer&nbsp;<img width="20" height="20" src="https://img.icons8.com/dotty/80/49b956/checked.png" alt="checked"/></div>';
-
-            echo '        <a href="pro_details.php?id='.$row['product_id'].'" class="button">Purchase Product</a>';
-
-            echo '    </div> <!-- end information -->';
-            echo '</div> <!-- end container -->';
-                }
-            }
-            $con->close();
-            ?>
-
-
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         Copyright &copy; by Ishwar Trada. All rights reserved.
