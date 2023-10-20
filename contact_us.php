@@ -77,22 +77,30 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
             </div>
             <div class="nav_right">
                 <div class="search-bar">
-                    <input id="" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
+                    <input id="searchInput" class="nav_search" type="search" name="Search_Products"
+                        placeholder="Search Products">
                     <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
+                <!-- <div id="suggestionContainer"></div> -->
+
+
                 <div class="country">
                     <img class="country_flag" src="icons/india-flag.png" alt="India Flag">
                     India
                 </div>
                 <div class="profile-dropdown">
-                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
                     <?php
                     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<a href=""><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
                         echo '<div class="dropdown-content">';
                         echo '    <a href="logout.php">Logout</a>';
                         echo '</div>';
                     }
+                    else{
+                        echo '<a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
+                    }
                     ?>
+
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
                 <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>

@@ -1,0 +1,108 @@
+.main{
+    min-height: 370px;
+    margin: 120px;
+    font-family: 'Garamond';
+}
+h1, h2 {
+    color: #333;
+}
+
+.cart-items {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    width: inherit;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    word-wrap:break-word;
+    /* word-break: break-all; */
+    font-size: 20px;
+
+}
+.pro_name{
+    text-transform: capitalize;
+    width: 40%;
+    color: #4a4848;
+
+}
+
+
+/* Quantity Button */
+input[type=number]{
+    text-align: center;
+}
+.quantity-btn {
+    background-color: #f8f9fa;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.quantity-btn:disabled {
+    color: #ccc;
+}
+
+.error-message {
+    margin-top: 0.5rem;
+}
+/* Disable default incrementer/decrementer */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+
+
+.pro_quantity, .pro_total_price{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 33%;
+    color: #6e6868;
+}
+.pro_total_price{
+    color: rgb(43, 43, 43);
+    /* font-family: 'Manrope'; */
+}
+
+
+/* Summary Div */
+.cart-summary {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 25px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* total of all product */
+.total{
+    margin: 20px;
+    font-size: 25px;
+}
+
+/* Checkout Button */
+#checkout {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Manrope';
+    font-size: 16px;
+    margin: auto;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

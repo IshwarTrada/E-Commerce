@@ -4,9 +4,10 @@ include 'connect.php';
 session_start(); // Start the session
 
 // Check if user is already logged in
-if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     $username = $_COOKIE['remember_user']; // Assuming you're storing the username in the cookie
-    header("location:profile.php");
+    // header("location:".$_SERVER['PHP_SELF']);
+    // echo "<script>window.location.href = window.location.href;</script>";
     exit();
 }
 
@@ -26,7 +27,7 @@ if (isset($_POST['u_name']) && isset($_POST['u_email']) && isset($_POST['u_pwd']
     if ($result) {
         // echo "Successfully Inserted";
         // echo "Successfully Sign Up...";
-        
+
     } else {
         die(mysqli_error($con));
     }
@@ -56,7 +57,7 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
         $_SESSION['logged_in'] = true;
 
         // Set cookie to expire in 5 seconds
-        setcookie('just_logged_in', true, time() + 5, '/'); 
+        setcookie('just_logged_in', true, time() + 5, '/');
         setcookie('remember_user', $username, time() + (30 * 24 * 60 * 60), '/');
 
         // redirect the page
@@ -67,7 +68,7 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
         // Redirect back to login page with an error message
         header("location:login.php?error=1");
         exit();
-    }  
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -91,10 +92,6 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
 </head>
 
 <body>
-    <!-- <header>
-        <h1 class="heading">GeeksforGeeks</h1>
-        <h3 class="title">Sliding Login & Registration Form</h3>
-    </header> -->
     <header id="header_offer" style="position: fixed;">
         <div class="offer">
             <p><strong>Free Delivery</strong> When you spend ₹3999.</p>
@@ -114,22 +111,29 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
             </div>
             <div class="nav_right">
                 <div class="search-bar">
-                    <input id="" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
+                    <input id="searchInput" class="nav_search" type="search" name="Search_Products"
+                        placeholder="Search Products">
                     <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
+                <!-- <div id="suggestionContainer"></div> -->
+
+
                 <div class="country">
                     <img class="country_flag" src="icons/india-flag.png" alt="India Flag">
                     India
                 </div>
                 <div class="profile-dropdown">
-                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
                     <?php
                     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<a href=""><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
                         echo '<div class="dropdown-content">';
                         echo '    <a href="logout.php">Logout</a>';
                         echo '</div>';
+                    } else {
+                        echo '<a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
                     }
                     ?>
+
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
                 <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>

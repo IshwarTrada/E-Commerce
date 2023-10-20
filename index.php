@@ -51,7 +51,8 @@ if (isset($_COOKIE['remember_user'])) {
             </div>
             <div class="nav_right">
                 <div class="search-bar">
-                    <input id="searchInput" class="nav_search" type="search" name="Search_Products" placeholder="Search Products">
+                    <input id="searchInput" class="nav_search" type="search" name="Search_Products"
+                        placeholder="Search Products">
                     <button class="search_btn"><img class="search-icon" src="icons/search.svg" alt="search"></button>
                 </div>
                 <!-- <div id="suggestionContainer"></div> -->
@@ -62,17 +63,21 @@ if (isset($_COOKIE['remember_user'])) {
                     India
                 </div>
                 <div class="profile-dropdown">
-                    <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>
                     <?php
                     if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+                        echo '<a href=""><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
                         echo '<div class="dropdown-content">';
                         echo '    <a href="logout.php">Logout</a>';
                         echo '</div>';
-                    } ?>
+                    }
+                    else{
+                        echo '<a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
+                    }
+                    ?>
 
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
-                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
+                <a href="cart.php"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
@@ -181,12 +186,11 @@ if (isset($_COOKIE['remember_user'])) {
             <!-- <button class="s3_c s1-link-btn">Learn More</button> -->
         </div>
         <div class="s6_video">
-            <video class="s6_vi" src="video/London_Sock_VIDEO.mp4" controls></video>
+            <video class="s6_vi" src="video/London_Sock_VIDEO.mp4" poster="img/poster.png" controls></video>
         </div>
     </section>
-    <section id="section7">
 
-    </section>
+
     <footer>
         Copyright &copy; by Ishwar Trada. All rights reserved.
     </footer>
