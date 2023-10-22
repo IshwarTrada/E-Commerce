@@ -130,7 +130,7 @@ if ($_SESSION['logged_in'] == true) {
                     echo '    <div class="pro_name">' . $row['product_name'] . '</div>';
                     echo '          <div class="pro_quantity quantity">';
                     echo '              <button class="quantity-btn decrement" name="decrement" onclick="updateTotal()">-</button>';
-                    echo '              <input type="number" class="quantity" name="quantity" value="1" min="1" max="10" data-product-id="' . $row['product_id'] . '">';
+                    echo '              <input type="number" class="quantity" name="quantity" value="1" min="1" max="10" onkeydown="return false" data-product-id="' . $row['product_id'] . '">';
                     echo '              <button class="quantity-btn increment" name="increment" onclick="updateTotal()">+</button>';
                     echo '          </div>';
                     echo '    <div class="pro_total_price"  data-total="' . $row['product_price'] . '" data-product-id="' . $row['product_id'] . '">Rs. ' . $row['product_price'] . '</div>';
