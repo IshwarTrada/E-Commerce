@@ -29,7 +29,7 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
     if ($result) {
         // echo "Successfully Inserted";
         // echo "Successfully Sign Up...";
-        
+
     } else {
         die(mysqli_error($con));
     }
@@ -46,8 +46,8 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-        <!-- Bootstrap Link -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <!-- Bootstrap Link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -58,7 +58,7 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
 </head>
 
 <body class="">
-<header id="header_offer" style="position: fixed;">
+    <header id="header_offer" style="position: fixed;">
         <div class="offer">
             <p><strong>Free Delivery</strong> When you spend ₹3999.</p>
             <p>12-Month Sock <strong>Sock Sure</strong> Guarantee</p>
@@ -95,15 +95,14 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
                         echo '<div class="dropdown-content">';
                         echo '    <a href="logout.php">Logout</a>';
                         echo '</div>';
-                    }
-                    else{
+                    } else {
                         echo '<a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a>';
                     }
                     ?>
 
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
-                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
+                <a href="cart.php"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
@@ -122,7 +121,8 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['feedback_ms
                     <input placeholder="Your Email Address" type="email" name="email" tabindex="2" required>
                 </fieldset>
                 <fieldset>
-                    <textarea placeholder="Type your message here...." name="feedback_msg" tabindex="5" required></textarea>
+                    <textarea placeholder="Type your message here...." name="feedback_msg" tabindex="5"
+                        required></textarea>
                 </fieldset>
                 <fieldset>
                     <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>

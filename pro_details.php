@@ -77,7 +77,7 @@ if (isset($_COOKIE['remember_user'])) {
 
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
-                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
+                <a href="cart.php"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
@@ -100,8 +100,8 @@ if (isset($_COOKIE['remember_user'])) {
                 $product_price = $row['product_price'];
                 $product_description = $row['product_desc'];
                 $product_photo = $row['product_photo'];
-            
-                echo '<form action="cart.php?id='.$product_id.'" method="post" id="productForm">';
+
+                echo '<form action="cart.php?id=' . $product_id . '" method="post" id="productForm">';
                 echo '<div class="product_page">';
                 echo '    <div class="product_image">';
                 echo '        <img src="img/product/' . $product_photo . '" alt="">';
@@ -110,7 +110,7 @@ if (isset($_COOKIE['remember_user'])) {
                 echo '        <div class="product_description">';
                 echo '            <h2>' . $product_name . '</h2>';
                 echo '            <h1><span style="font-size: 18px;letter-spacing: 8px;">₹</span>' . $product_price . '</h1>';
-                echo '            <div class="description">'.$product_description.'</div>';
+                echo '            <div class="description">' . $product_description . '</div>';
                 echo '            <input type="submit" name="addToCart" class="add_cart" value="Add To Cart" id="addToCartBtn">';
                 echo '        </div>';
                 echo '    </div>';

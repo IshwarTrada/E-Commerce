@@ -2,60 +2,97 @@ document.addEventListener('DOMContentLoaded', function () {
     const quantityElements = document.querySelectorAll('.quantity input');
     const incrementButtons = document.querySelectorAll('.quantity .increment');
     const decrementButtons = document.querySelectorAll('.quantity .decrement');
-    const quantityMessages = document.querySelectorAll('.quantity-message');
+    const totalPrices = document.querySelectorAll('.pro_total_price');
 
-    function updateQuantityButtons(index) {
-        const quantityValue = parseInt(quantityElements[index].value);
+    function updateQuantityButtons(element) {
+        const quantityValue = parseInt(element.value);
+        const productId = element.dataset.productId;
+        const incrementButton = document.querySelector(`.pro_total_price[data-product-id="${productId}"]`);
 
         if (quantityValue >= 10) {
-            incrementButtons[index].disabled = true;
-            quantityMessages[index].innerText = "You can't order more than 10 items.";
-            quantityMessages[index].style.color = "red";
+            incrementButton.disabled = true;
         } else if (quantityValue <= 1) {
-            decrementButtons[index].disabled = true;
-            quantityMessages[index].innerText = "";
+            incrementButton.disabled = true;
         } else {
-            incrementButtons[index].disabled = false;
-            decrementButtons[index].disabled = false;
-            quantityMessages[index].innerText = "";
+            incrementButton.disabled = false;
         }
     }
 
-    function incrementQuantity(index) {
-        const quantityInput = quantityElements[index];
-        const currentQuantity = parseInt(quantityInput.value);
+    function incrementQuantity(element) {
+        const currentQuantity = parseInt(element.value);
         if (currentQuantity < 10) {
-            quantityInput.value = currentQuantity + 1;
+            element.value = currentQuantity + 1;
         }
     }
 
-    function decrementQuantity(index) {
-        const quantityInput = quantityElements[index];
-        const currentQuantity = parseInt(quantityInput.value);
+    function decrementQuantity(element) {
+        const currentQuantity = parseInt(element.value);
         if (currentQuantity > 1) {
-            quantityInput.value = currentQuantity - 1;
+            element.value = currentQuantity - 1;
         }
     }
 
-    incrementButtons.forEach((button, index) => {
+    incrementButtons.forEach((button) => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
-            incrementQuantity(index);
-            updateQuantityButtons(index);
+            const quantityInput = this.parentElement.querySelector('input');
+            incrementQuantity(quantityInput);
+            updateQuantityButtons(quantityInput);
+            updateTotalPrice(quantityInput);
         });
     });
 
-    decrementButtons.forEach((button, index) => {
+    decrementButtons.forEach((button) => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
-            decrementQuantity(index);
-            updateQuantityButtons(index);
+            const quantityInput = this.parentElement.querySelector('input');
+            decrementQuantity(quantityInput);
+            updateQuantityButtons(quantityInput);
+            updateTotalPrice(quantityInput);
         });
     });
 
-    quantityElements.forEach((element, index) => {
+    quantityElements.forEach((element) => {
         element.addEventListener('input', function () {
-            updateQuantityButtons(index);
+            updateQuantityButtons(this);
+            updateTotalPrice(this);
         });
     });
+
+    function updateTotalPrice(element) {
+        const quantityValue = parseInt(element.value);
+        const productId = element.dataset.productId;
+        const totalPriceElement = document.querySelector(`.pro_total_price[data-product-id="${productId}"]`);
+
+        const unitPrice = parseInt(totalPriceElement.getAttribute('data-total'));
+
+        if (!isNaN(quantityValue) && !isNaN(unitPrice)) {
+            const totalPrice = quantityValue * unitPrice;
+            totalPriceElement.innerText = 'Rs. ' + totalPrice;
+        }
+    }
+
+    // Initialize the buttons and quantities
+    for (let i = 0; i < quantityElements.length; i++) {
+        updateQuantityButtons(quantityElements[i]);
+        updateTotalPrice(quantityElements[i]);
+    }
 });
+
+// Show total price
+function updateTotal() {
+    let total = 0;
+    document.querySelectorAll('.cart-item').forEach(item => {
+        const price = parseFloat(item.querySelector('.pro_total_price').getAttribute('data-total'));
+        const quantity = parseInt(item.querySelector('.quantity input').value);
+        total += price * quantity;
+    });
+    document.getElementById('total').textContent = total.toFixed(2);
+}
+
+document.querySelectorAll('.quantity input').forEach(input => {
+    input.addEventListener('input', updateTotal);
+});
+
+// Initial calculation on page load
+updateTotal();

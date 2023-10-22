@@ -7,33 +7,39 @@ if (isset($_COOKIE['remember_user'])) {
     $username = $_COOKIE['remember_user'];
 }
 
-// Check if the form has been submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['addToCart'])) {
-        // Get product details from the form
-        $product_id = $_GET['id'];
+// Check If user is Logged in or not
+if ($_SESSION['logged_in'] == true) {
+    // Check if the form has been submitted
 
-        // Select product item from product table from id
-        $sql = "SELECT * FROM product WHERE product_id = $product_id";
-        $result = $con->query($sql);
-        if ($row = $result->fetch_assoc()) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['addToCart'])) {
+            // Get product details from the form
+            $product_id = $_GET['id'];
 
-            $product_name = $row['product_name'];
-            $product_photo = $row['product_photo'];
-            $product_price = $row['product_price'];
+            // Select product item from product table from id
+            $sql = "SELECT * FROM product WHERE product_id = $product_id";
+            $result = $con->query($sql);
+            if ($row = $result->fetch_assoc()) {
 
-            // Check if the product is already in the cart
-            $checkQuery = "SELECT * FROM cart_items WHERE product_id = $product_id";
-            $checkResult = $con->query($checkQuery);
-            if ($checkResult && $checkResult->num_rows == 0) {
-                $ins = "INSERT INTO `cart_items` (`product_id`,`product_name`, `product_photo`,`product_price`, `dt`) VALUES ('$product_id', '$product_name', '$product_photo', '$product_price', current_timestamp())";
-                $res = $con->query($ins);
-                header('Location: cart.php'); // Redirect after POST
-                exit();
+                $product_name = $row['product_name'];
+                $product_photo = $row['product_photo'];
+                $product_price = $row['product_price'];
+
+                // Check if the product is already in the cart
+                $checkQuery = "SELECT * FROM cart_items WHERE product_id = $product_id";
+                $checkResult = $con->query($checkQuery);
+                if ($checkResult && $checkResult->num_rows == 0) {
+                    $ins = "INSERT INTO `cart_items` (`product_id`,`product_name`, `product_photo`,`product_price`, `dt`) VALUES ('$product_id', '$product_name', '$product_photo', '$product_price', current_timestamp())";
+                    $res = $con->query($ins);
+                    header('Location: cart.php'); // Redirect after POST
+                    exit();
+                }
+
             }
-
         }
     }
+} else {
+    header('Location: login.php'); // Redirect after POST
 }
 ?>
 
@@ -104,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
-                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
+                <a href="cart.php"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
@@ -114,34 +120,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Shopping Cart</h1>
         <div class="cart-items" id="cart-items">
             <?php
-                // To show all data which is store in the cart_item table
-                $s_cart = "SELECT * FROM cart_items";
-                $cart_product = mysqli_query($con, $s_cart);
+            // To show all data which is store in the cart_item table
+            $s_cart = "SELECT * FROM cart_items";
+            $cart_product = mysqli_query($con, $s_cart);
 
-                if ($cart_product->num_rows > 0) {
-                    while ($row = $cart_product->fetch_assoc()) {
-
-                        echo '<div class="cart-item" style="width: inherit;">';
-                        echo '    <div class="pro_name">' . $row['product_name'] . '</div>';
-                        // echo '    <div class="pro_quantity">';
-                        // echo '        <p>x34</p>';
-                        // echo '    </div>';
-                        echo '          <div class="pro_quantity quantity">';
-                        echo '              <button class="quantity-btn decrement" name="decrement">-</button>';
-                        echo '              <input type="number" class="quantity" name="quantity" value="1" min="1" max="10">';
-                        echo '              <button class="quantity-btn increment" name="increament">+</button>';
-                        echo '          </div>';
-                        // echo '          <div class="quantity-message error-message"></div>';
-                        // echo '  </div>';
-                        echo '    <div class="pro_total_price">';
-                        echo '        Rs. 5555';
-                        echo '    </div>';
-                        echo '    <div class="pro_total_price">';
-                        echo '        Rs. 5555';
-                        echo '    </div>';
-                        echo '</div>';
-                    }
+            if ($cart_product->num_rows > 0) {
+                while ($row = $cart_product->fetch_assoc()) {
+                    echo '<div class="cart-item">';
+                    echo '    <div class="pro_name">' . $row['product_name'] . '</div>';
+                    echo '          <div class="pro_quantity quantity">';
+                    echo '              <button class="quantity-btn decrement" name="decrement" onclick="updateTotal()">-</button>';
+                    echo '              <input type="number" class="quantity" name="quantity" value="1" min="1" max="10" data-product-id="' . $row['product_id'] . '">';
+                    echo '              <button class="quantity-btn increment" name="increment" onclick="updateTotal()">+</button>';
+                    echo '          </div>';
+                    echo '    <div class="pro_total_price"  data-total="' . $row['product_price'] . '" data-product-id="' . $row['product_id'] . '">Rs. ' . $row['product_price'] . '</div>';
+                    echo '    <div class="pro_total_price">';
+                    echo '        Rs. ' . $row['product_price'];
+                    echo '    </div>';
+                    echo '<a href="delete_item.php?id=' . $row['product_id'] . '" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Delete</a>';
+                    echo '</div>';
                 }
+            }
+            echo '<div class="cart-summary">';
+            echo '<h2>Summary</h2>';
+            echo '<div class="total">Total: <span id="total">0</span></div>';
+            echo '<button id="checkout">Checkout</button>';
+            echo '</div>';
+
             ?>
         </div>
     </div>
@@ -151,7 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="script.js"></script>
     <script src="cart.js"></script>
-    </script>
 
 
 </body>

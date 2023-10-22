@@ -136,7 +136,7 @@ if (isset($_POST['log_u_email']) && isset($_POST['log_u_pwd'])) {
 
                 </div>
                 <!-- <a href="login.php"><img class="nav_right_logo" src="icons/user.png" alt="user"></a> -->
-                <a href="#"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
+                <a href="cart.php"><img class="nav_right_logo" src="icons/cart.png" alt="Cart"></a>
             </div>
         </nav>
     </header>
